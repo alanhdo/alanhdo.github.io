@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alan Houdeau | Engineering Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- VARIABLES & RESET --- */
+        :root {
+            --bg-color: #0f1115;
+            --card-bg: #1a1d24;
+            --accent-color: #6c63ff;
+            /* Violet/Electric Blue */
+            --accent-hover: #524ad0;
+            --text-main: #ffffff;
+            --text-secondary: #a0a0a0;
+            --font-main: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 17, 21, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent-color);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        /* --- HERO SECTION --- */
+        header {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 100px 10% 0 10%;
+            background: radial-gradient(circle at 80% 20%, rgba(108, 99, 255, 0.15) 0%, transparent 40%);
+        }
+
+        .hero-text {
+            flex: 1;
+            padding-right: 50px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: var(--accent-color);
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+
+        .hero-img-container {
+            flex: 0 0 350px;
+            height: 350px;
+            position: relative;
+        }
+
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid var(--accent-color);
+            box-shadow: 0 0 50px rgba(108, 99, 255, 0.3);
+            background-color: #2a2e38;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 5px;
+            font-weight: 600;
+            border: 1px solid var(--accent-color);
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--text-secondary);
+            margin-left: 15px;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* --- GENERAL SECTIONS --- */
+        section {
+            padding: 80px 10%;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 50px;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 20px;
+        }
+
+        /* --- PROJECTS (CAROUSEL) --- */
+        .projects-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 30px;
+            padding: 10px 10px 30px 10px;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-color) var(--bg-color);
+        }
+
+        .project-card {
+            min-width: 350px;
+            height: 450px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-sizing: border-box;
+            cursor: pointer;
+            transition: transform 0.3s, border-color 0.3s;
+            scroll-snap-align: start;
+            position: relative;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .project-card:hover {
+            transform: scale(1.02);
+            border-color: var(--accent-color);
+        }
+
+        .card-img {
+            height: 60%;
+            width: 100%;
+            background-color: #2a2e38;
+            overflow: hidden;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+
+        .project-card:hover .card-img img {
+            transform: scale(1.1);
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 5px 10px;
+            font-size: 0.75rem;
+            border-radius: 20px;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            z-index: 10;
+        }
+
+        /* --- SKILLS --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .skill-item {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .skill-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+
+        .skill-item p {
+            color: #ccc;
+            font-size: 0.95rem;
+        }
+
+        /* --- EXPERIENCE LAYOUT --- */
+        .experience-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 50px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .timeline-item {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -36px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-color);
+        }
+
+        .date {
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .job-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .company {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .exp-sidebar {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 2px solid var(--accent-color);
+            height: fit-content;
+        }
+
+        .exp-sidebar h3 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-content p {
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            color: #ccc;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 10px;
+        }
+
+        .sidebar-content p:last-child {
+            border-bottom: none;
+        }
+
+        /* --- CONTACT --- */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .contact-label {
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .contact-info div {
+            margin-bottom: 30px;
+        }
+
+        /* --- MODAL --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 10px;
+            max-width: 900px;
+            width: 90%;
+            max-height: 95vh;
+            overflow-y: auto;
+            position: relative;
+            border: 1px solid var(--accent-color);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            z-index: 10;
+        }
+
+        .modal-gallery {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: #000;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        #modal-img-detail {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .gallery-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            font-size: 2rem;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .gallery-btn:hover {
+            background: var(--accent-color);
+        }
+
+        .prev-btn {
+            left: 10px;
+        }
+
+        .next-btn {
+            right: 10px;
+        }
+
+        #modal-tools {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tool-badge {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+        }
+        /* --- SÉLECTEUR DE LANGUE (SVG) --- */
+        .nav-links .flag-link {
+            display: inline-block;
+            width: 30px;
+            height: 20px;
+            margin-left: 15px;
+            opacity: 0.5; /* Plus discret par défaut */
+            transition: all 0.3s ease;
+            vertical-align: middle;
+            border-radius: 3px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 2px solid transparent; /* Bordure invisible par défaut */
+        }
+
+        .nav-links .flag-link svg {
+            width: 100%; height: 100%; display: block;
+        }
+
+        /* Au survol : on éclaire le drapeau */
+        .nav-links .flag-link:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        /* --- CLASSE ACTIVE (Le drapeau sélectionné) --- */
+        /* C'est ici que l'on définit le style du drapeau de la langue actuelle */
+        .nav-links .flag-link.active {
+            opacity: 1; /* Totalement visible */
+            transform: scale(1.3); /* Nettement plus grand */
+            box-shadow: 0 0 10px rgba(108, 99, 255, 0.6); /* Lueur violette */
+            /*border-color: var(--accent-color); /* Bordure couleur thème */
+            pointer-events: none; /* On ne peut pas recliquer dessus */
+        }
+
+        .nav-links .flag-link::after { display: none !important; }
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            header {
+                flex-direction: column-reverse;
+                text-align: center;
+                justify-content: center;
+                padding-top: 120px;
+            }
+
+            .hero-text {
+                padding-right: 0;
+                margin-top: 30px;
+            }
+
+            .hero-img-container {
+                flex: 0 0 250px;
+                height: 250px;
+            }
+
+            .experience-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 60px 5%;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">ALAN<span> HOUDEAU</span></div>
+        <div class="nav-links">
+            <a href="#accueil">Home</a>
+            <a href="#projets">Projects</a>
+            <a href="#competences">Skills</a>
+            <a href="#experience">Career</a>
+            <a href="#contact">Contact</a>
+            <a href="portfolio_fr.html" class="flag-link" title="Version Française">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2">
+                    <rect width="1" height="2" x="0" fill="#0055A4" />
+                    <rect width="1" height="2" x="1" fill="#FFFFFF" />
+                    <rect width="1" height="2" x="2" fill="#EF4135" />
+                </svg>
+            </a>
+
+            <a href="portfolio_en.html" class="flag-link active" title="English Version">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30">
+                    <clipPath id="s">
+                        <path d="M0,0 v30 h60 v-30 z"/>
+                    </clipPath>
+                    <clipPath id="t">
+                        <path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/>
+                    </clipPath>
+                    <g clip-path="url(#s)">
+                        <path d="M0,0 v30 h60 v-30 z" fill="#012169"/>
+                        <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/>
+                        <path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#t)" stroke="#C8102E" stroke-width="4"/>
+                        <path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/>
+                        <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/>
+                    </g>
+                </svg>
+            </a>
+        </div>
+    </nav>
+
+    <header id="accueil">
+        <div class="hero-text">
+            <div class="subtitle">Mechanical & Mechatronics Engineering Student</div>
+            <h1>Innovate.<br>Design.<br><span>Manufacture.</span></h1>
+            <p class="subtitle" style="margin-top: 20px; font-size: 1rem;">
+                As a Mechanical and Mechatronics Engineering student at Polytech Annecy, I am curious and passionate about
+                additive manufacturing and the design of complex systems. I am actively looking for an
+                <strong>internship abroad</strong> to apply my technical skills and discover new industrial environments.
+            </p>
+            <div class="cta-group">
+                <a href="#projets" class="btn">View My Work</a>
+            </div>
+        </div>
+
+        <div class="hero-img-container">
+            <img src="profile.jpg" alt="Alan Houdeau" class="profile-pic" onerror="this.style.display='none'">
+        </div>
+    </header>
+
+    <section id="projets">
+        <h2 class="section-title">Personal Projects</h2>
+        <p style="margin-bottom: 20px; color: var(--text-secondary);">← Scroll horizontally | Click to view
+            details →</p>
+
+        <div class="projects-container">
+            <div class="project-card" onclick="openModal(0)">
+                <div class="card-tag">Reverse Engineering & Custom made</div>
+                <div class="card-img">
+                    <img src="thumb_p1.jpg" alt="Biathlon Rifle" onerror="this.style.display='none'">
+                </div>
+                <div class="card-content">
+                    <div class="card-title">Biathlon Rifle</div>
+                    <div class="card-desc">Complete redesign of a biathlon rifle and manufacturing of custom parts for athletes.</div>
+                </div>
+            </div>
+            <div class="project-card" onclick="openModal(1)">
+                <div class="card-tag">Optimization</div>
+                <div class="card-img">
+                    <img src="thumb_p2.jpg" alt="Laser Mount" onerror="this.style.display='none'">
+                </div>
+                <div class="card-content">
+                    <div class="card-title">Laser Mount</div>
+                    <div class="card-desc">Topological optimization of a laser mount for an industrial machine.
+                    </div>
+                </div>
+            </div>
+            <div class="project-card" onclick="openModal(2)">
+                <div class="card-tag">Special Machine</div>
+                <div class="card-img">
+                    <img src="thumb_p3.jpg" alt="DIY 3D Printer" onerror="this.style.display='none'">
+                </div>
+                <div class="card-content">
+                    <div class="card-title">DIY 3D Printer</div>
+                    <div class="card-desc">Complete build (structure, electronics, firmware) of an FDM machine.
+                    </div>
+                </div>
+            </div>
+            <div class="project-card" onclick="openModal(3)">
+                <div class="card-tag">Sports Product</div>
+                <div class="card-img">
+                    <img src="thumb_p4.jpg" alt="Ski Pole" onerror="this.style.display='none'">
+                </div>
+                <div class="card-content">
+                    <div class="card-title">Ski Pole Phone Mount</div>
+                    <div class="card-desc">Mechanical system transforming a ski pole into a selfie stick.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="competences">
+        <h2 class="section-title">Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-item">
+                <h3>Additive Manufacturing</h3>
+                <p>FDM, Resin, Metal</p>
+            </div>
+            <div class="skill-item">
+                <h3>CAD Software</h3>
+                <p>3D Experience, Fusion 360, Solidworks</p>
+            </div>
+            <div class="skill-item">
+                <h3>3D Printing Slicers</h3>
+                <p>Materialise Magics, Bambustudio, Orca,...</p>
+            </div>
+            <div class="skill-item">
+                <h3>Conventional Machining</h3>
+                <p>Turning, Milling</p>
+            </div>
+
+            <div class="skill-item skill">
+                <h3>English</h3><span>Level: B2 / TOEIC: 900</span>
+            </div>
+            <div class="skill-item skill">
+                <h3>Topological Optimization</h3><span>3D Experience & Fusion 360</span>
+            </div>
+            <div class="skill-item skill">
+                <h3>3D Scanning</h3><span>Scan processing and dimensional control</span>
+            </div>
+            <div class="skill-item skill">
+                <h3>Programming</h3><span>Python, Arduino</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2 class="section-title">Career & Experience</h2>
+
+        <div class="experience-layout">
+            <div class="timeline-column">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="date">2024 / Present</span>
+                        <div class="job-title">Apprentice Engineer - Additive Manufacturing</div>
+                        <div class="company">Polytech Annecy / GMP Additiv'</div>
+                        <p>Mechanical systems design, Metal 3D printing (Aerospace)</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="date">2022 / 2024</span>
+                        <div class="job-title">Engineering Preparatory Class</div>
+                        <div class="company">Polytech Annecy</div>
+                        <p>CAD, Design, Engineering Systems theory, Material Strength</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="date">June 2023</span>
+                        <div class="job-title">Assistant Engineer Intern</div>
+                        <div class="company">ALSIMA - Annecy</div>
+                        <p>FDM / Resin 3D Printing, CAD, Continuous Improvement</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="date">2020 - 2022</span>
+                        <div class="job-title">General Baccalaureate</div>
+                        <div class="company">Lycée Heinrich Nessel, Haguenau</div>
+                        <p>Specialty in Math - Engineering Science</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exp-sidebar">
+                <h3>Additional Experience</h3>
+                <div class="sidebar-content">
+                    <p>• 2023 - 2025: FabLab Manager (Polytech)</p>
+                    <p>• 2020: Bicycle Mechanic Intern</p>
+                    <p>• Winter 2023/2024: Seasonal Worker (Pierre & Vacances)</p>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" style="background-color: #13151a;">
+        <h2 class="section-title">Contact Me</h2>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <div>
+                    <div class="contact-label"><u>EMAIL</u></div><a
+                        href="mailto:alanhoudeau@orange.fr">alanhoudeau@orange.fr</a>
+                </div>
+                <div>
+                    <div class="contact-label"><u>PHONE</u></div><a href="tel:+33788600629">+33 7 88 60 06 29</a>
+                </div>
+                <div>
+                    <div class="contact-label"><u>LOCATION</u></div>
+                    <p>Annecy-le-Vieux, France</p>
+                </div>
+            </div>
+
+            <div class="cv-download">
+                <a href="CV_alan_HOUDEAU_en.pdf" download="CV_alan_HOUDEAU_en.pdf" class="btn"
+                    style="width:100%; text-align:center; padding: 20px;">
+                    Download my Resume (PDF)
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title" style="margin-bottom: 10px; color: var(--accent-color);">Title</h2>
+            <div class="modal-gallery">
+                <button class="gallery-btn prev-btn" onclick="changeImage(-1)">&#10094;</button>
+                <img id="modal-img-detail" src="" alt="Project Detail">
+                <button class="gallery-btn next-btn" onclick="changeImage(1)">&#10095;</button>
+            </div>
+            <p id="modal-desc" style="color: #ddd; font-size: 0.95rem; line-height: 1.7;"></p>
+            <div id="modal-tools"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p style="text-align: center; padding: 20px; font-size: 0.8rem; color: var(--text-secondary);"
+            data-i18n="footer.copyright">© 2025 Alan Houdeau. All rights reserved. Entirely done by myself (code and illustration).</p>
+    </footer>
+
+    <script>
+        // --- PROJECT DATA (Translated) ---
+        const projects = [
+            {
+                title: "Reverse engineering of a biathlon rifle stock",
+                desc: `<strong>Context:</strong> Personal project in collaboration with national-level athletes, aiming to improve the ergonomics and precision of biathlon rifles.<br><br>
+                       <strong>My Role:</strong> Analysis of athlete needs, drafting specifications, 3D scanning, Redesign, 3D Printing, and Machining.<br><br>
+                       <strong>Challenges & Solutions:</strong> Design of contact parts (grip, cheek piece) custom-made to perfectly fit the athlete. Mass reduction of the stock to allow for center of gravity adjustment by adding weights. Choice of a hybrid process: 3D printing for complex custom shapes and CNC Aluminum machining for rails and fixtures.<br><br>
+                       <strong>Key Skills:</strong> Fusion 360, Design for Manufacturing (DFM), Ergonomics.`,
+                tools: ["3D Scanner", "Fusion 360", "CNC Machining", "3D Printing"],
+                images: ["p1_1.jpg", "p1_2.jpg", "p1_3.jpg"]
+            },
+            {
+                title: "Topological Optimization of an industrial laser mount",
+                desc: `<strong>Context:</strong> Corporate project aiming to reduce the mass and cost of a laser mount for an industrial machine, while maintaining its rigidity.<br><br>
+                       <strong>My Role:</strong> From drafting specifications to physical validation, including Finite Element Analysis (FEA) and topological optimization.<br><br>
+                       <strong>Challenges & Solutions:</strong> Use of topological optimization in 3DEXPERIENCE to generate an efficient geometry, minimizing material. Redesign of the mount based on optimization results. Extrapolation of simulation results (Aluminum) to PLA for 3D printing, accounting for anisotropy.<br><br>
+                       <strong>Result:</strong> Functional prototype validated by FEA simulation (compliance with safety factors) and physical tests.`,
+                tools: ["3D Experience", "Topological Optimization", "FEA Simulation", "3D Printing", "Theoretical Calculations"],
+                images: ["p2_1.jpg", "p2_2.jpg", "p2_3.jpg"]
+            },
+            {
+                title: "Manufacturing and Optimization of a 3D Printer",
+                desc: `<strong>Objective:</strong> Design and manufacture a new high-performance 3D printer using salvaged components for a total cost < €100.<br><br>
+                       <strong>My Role:</strong> Complete mechanical design, material selection, assembly, and firmware configuration.<br><br>
+                       <strong>Low-Cost Innovation:</strong> Creative use of aluminum curtain rods instead of standard aluminum profiles for a rigid chassis at a reduced cost. Complete architectural redesign on Fusion 360 to gain rigidity and speed.<br><br>
+                       <strong>Result:</strong> Finished and functional machine producing high-quality parts.`,
+                tools: ["Mechatronics", "Arduino/Marlin", "Fusion 360", "Electronics"],
+                images: ["p3_1.jpg", "p3_2.jpg", "p3_3.jpg"]
+            },
+            {
+                title: "Ski Pole Phone Mount",
+                desc: `<strong>Concept:</strong> Personal design project for a versatile accessory allowing a smartphone to be attached to a ski pole to facilitate filming.<br><br>
+                       <strong>Technical Challenges:</strong> Quick attachment system usable with gloves, cold resistance, and cost price < €5.<br><br>
+                       <strong>Solutions:</strong> Use of carbon fiber rods for lightness and 3D printing (PP-CF) for impact resistance. Simplified design to minimize printing time.<br><br>
+                       <strong>Result:</strong> Functional product, very lightweight, and validated after iterative testing in real conditions.`,
+                tools: ["3D Printing (PP-CF)", "Product Design", "Prototyping", "Cost Analysis"],
+                images: ["p4_1.jpg", "p4_2.jpg", "p4_3.jpg"]
+            }
+        ];
+
+        let currentProjectIndex = 0;
+        let currentImageIndex = 0;
+        const modal = document.getElementById("projectModal");
+        const title = document.getElementById("modal-title");
+        const desc = document.getElementById("modal-desc");
+        const toolsContainer = document.getElementById("modal-tools");
+        const detailImg = document.getElementById("modal-img-detail");
+
+        function openModal(index) {
+            currentProjectIndex = index;
+            currentImageIndex = 0;
+            const p = projects[index];
+            title.innerText = p.title;
+            // IMPORTANT: Using innerHTML to interpret <br> and <strong> tags
+            desc.innerHTML = p.desc;
+
+            updateImageDisplay();
+            toolsContainer.innerHTML = "";
+            p.tools.forEach(tool => {
+                const badge = document.createElement("span");
+                badge.className = "tool-badge";
+                badge.innerText = tool;
+                toolsContainer.appendChild(badge);
+            });
+            modal.style.display = "flex";
+        }
+
+        function changeImage(direction) {
+            const p = projects[currentProjectIndex];
+            currentImageIndex += direction;
+            if (currentImageIndex >= p.images.length) currentImageIndex = 0;
+            else if (currentImageIndex < 0) currentImageIndex = p.images.length - 1;
+            updateImageDisplay();
+        }
+
+        function updateImageDisplay() {
+            const p = projects[currentProjectIndex];
+            detailImg.src = p.images[currentImageIndex];
+        }
+
+        function closeModal() { modal.style.display = "none"; }
+        window.onclick = function (event) { if (event.target == modal) closeModal(); }
+
+        // --- GESTION DU MENU ACTIF AU SCROLL (CORRIGÉ) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('header, section');
+            
+            // C'est ici la modification importante : on exclut les drapeaux (.flag-link)
+            const navLinks = document.querySelectorAll('.nav-links a:not(.flag-link)');
+
+            function changeLinkState() {
+                let index = sections.length;
+
+                // Détection du bas de page pour activer "Contact"
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 10) {
+                    index = sections.length - 1;
+                } else {
+                    while (--index && window.scrollY + 150 < sections[index].offsetTop) { }
+                }
+
+                // On enlève la classe active seulement sur les liens textes, pas les drapeaux
+                navLinks.forEach((link) => link.classList.remove('active'));
+
+                if (index >= 0) {
+                    const id = sections[index].id;
+                    // On cherche le lien correspondant (en excluant toujours les drapeaux)
+                    const activeLink = document.querySelector(`.nav-links a:not(.flag-link)[href="#${id}"]`);
+                    if (activeLink) {
+                        activeLink.classList.add('active');
+                    }
+                }
+            }
+
+            changeLinkState();
+            window.addEventListener('scroll', changeLinkState);
+        });
+    </script>
+</body>
+
+</html>
